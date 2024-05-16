@@ -23,6 +23,8 @@ public class MyGame : Game
     public Sprite backgrHUD;
     public EasyDraw hud2;
 
+    public EasyDraw wood;
+
     public Sound backgroundMusic;
     public SoundChannel soundChannel;
 
@@ -37,6 +39,7 @@ public class MyGame : Game
     Player2 player2;
     Finish2 finish2;
 
+
     //TODO: ATTEMPT TO FIX EGG PNG ISSUE
 
 
@@ -44,6 +47,9 @@ public class MyGame : Game
     {
         background = new AnimationSprite("assets/background3.png", 1, 1);
         AddChild(background);
+
+        wood = new EasyDraw(1920, 1080);
+        AddChild(wood);
 
         _lineContainer = new Canvas(width, height);
         AddChild(_lineContainer);
@@ -358,11 +364,17 @@ public class MyGame : Game
 			line.Destroy();
 		}
 		_lines.Clear();
-        for(int i = GetChildCount() - 1; i > 0; i--)
+        for(int i = GetChildCount() - 1; i >= 0; i--)
         {
             GameObject obj = GetChildren()[i];
             if (obj is Axe) { RemoveChild(obj); }
         }
+        for (int i = wood.GetChildCount() - 1; i >= 0; i--)
+        {
+            GameObject obj = wood.GetChildren()[i];
+            wood.RemoveChild(obj);
+        }
+
 
 
         gameOver.ClearTransparent();
@@ -432,7 +444,9 @@ public class MyGame : Game
                             _movers.Add(new Enemy(20, new Vec2(Convert.ToInt16(level[1]), Convert.ToInt16(level[2]))));
                             break;
                         case 7:
-                            AddLine(new Vec2(Convert.ToInt16(level[1]), Convert.ToInt16(level[2])), new Vec2(Convert.ToInt16(level[3]), Convert.ToInt16(level[4])));
+                            Vec2 lineStart = new Vec2(Convert.ToInt16(level[1]), Convert.ToInt16(level[2]));
+                            Vec2 lineEnd = new Vec2(Convert.ToInt16(level[3]), Convert.ToInt16(level[4]));
+                            AddLine(lineStart, lineEnd, visible:false);
                             break;
                         case 8:
                             _movers.Add(new Bomb(new Vec2(Convert.ToInt16(level[1]), Convert.ToInt16(level[2]))));
@@ -465,13 +479,34 @@ public class MyGame : Game
                 _movers.Add(new Collectable(new Vec2(500, 500)));
                 _movers.Add(new Collectable(new Vec2(600, 600)));
                 AddChild(new Axe(new Vec2(800, 200)));*/
+                
 
-				int[] itemUses = new int[] { 5, 5, 5, 0, 0, 0 , 1 }; // this being declared here might break something but it shouldn't
+				int[] itemUses = new int[] { 1, 0, 0, 0, 0, 0, 0 }; // this being declared here might break something but it shouldn't
                 _spawner.SetRemainingUses(itemUses);
                 break;
             case 2: // test level
-                itemUses = new int[] { 5, 5, 5, 0, 0, 0, 1 };
+                itemUses = new int[] { 3, 3, 0, 0, 0, 0, 0 };
                 _spawner.SetRemainingUses(itemUses);
+
+                Sprite w1 = new Sprite("assets/wood1.png", addCollider: false);
+                w1.SetXY(580, -400);
+                wood.AddChild(w1);
+
+                Sprite w2 = new Sprite("assets/wood2.png", addCollider: false);
+                w2.SetXY(300, 200);
+                wood.AddChild(w2);
+
+                Sprite w3 = new Sprite("assets/wood3.png", addCollider: false);
+                w3.SetXY(210, 500);
+                wood.AddChild(w3);
+
+                Sprite w4 = new Sprite("assets/wood3.png", addCollider: false);
+                w4.SetXY(210, -500);
+                wood.AddChild(w4);
+
+                Sprite w5 = new Sprite("assets/wood2.png", addCollider: false);
+                w5.SetXY(950, 350);
+                wood.AddChild(w5);
 
                 /*_movers.Add(new Player(30, new Vec2(700, 100)));
                 _movers.Add(new Player2(30, new Vec2(width-700, 100)));
@@ -487,8 +522,12 @@ public class MyGame : Game
                 _movers.Add(new Finish2(new Vec2(width-100, 500)));*/
                 break;
             case 3:
-                itemUses = new int[] { 5, 5, 5, 0, 0, 0, 1 };
+                itemUses = new int[] { 2, 4, 2, 0, 0, 0, 0 };
                 _spawner.SetRemainingUses(itemUses);
+
+                Sprite w6 = new Sprite("assets/wood2.png", addCollider: false);
+                w6.SetXY(600, 450);
+                wood.AddChild(w6);
 
                 /*_movers.Add(new Player(30, new Vec2(1750, 150)));
                 AddLine(new Vec2(1600, 0), new Vec2(1600, 300));
@@ -497,8 +536,26 @@ public class MyGame : Game
                 _movers.Add(new Finish(new Vec2(350, 1000)));*/
                 break;
             case 4:
-                itemUses = new int[] { 5, 5, 5, 0, 0, 0, 1 };
+                itemUses = new int[] { 3, 5, 2, 0, 0, 0, 0 };
                 _spawner.SetRemainingUses(itemUses);
+
+                Sprite w7 = new Sprite("assets/wood1.png", addCollider: false);
+                w7.SetXY(1300, -300);
+                w7.Mirror(true,false);
+                wood.AddChild(w7);
+
+                Sprite w8 = new Sprite("assets/wood2.png", addCollider: false);
+                w8.SetXY(850, -300);
+                wood.AddChild(w8);
+
+                Sprite w9 = new Sprite("assets/wood3.png", addCollider: false);
+                w9.SetXY(760, 450);
+                wood.AddChild(w9);
+
+                Sprite w10 = new Sprite("assets/wood2.png", addCollider: false);
+                w10.rotation = 90;
+                w10.SetXY(850, 580);
+                wood.AddChild(w10);
 
                 /*_movers.Add(new Finish(new Vec2(1273, 993)));
                 AddLine(new Vec2(1050, 634), new Vec2(1050, 1080));
@@ -509,8 +566,12 @@ public class MyGame : Game
                 _movers.Add(new Player(30, new Vec2(666, 50)));*/
                 break;
             case 5:
-                itemUses = new int[] { 5, 5, 5, 0, 0, 0, 1 };
+                itemUses = new int[] { 2, 4, 2, 0, 0, 0, 0 };
                 _spawner.SetRemainingUses(itemUses);
+
+                Sprite w11 = new Sprite("assets/wood2.png", addCollider: false);
+                w11.SetXY(700, 330);
+                wood.AddChild(w11);
 
                 /*_movers.Add(new Player(30, new Vec2(109, 645)));
                 AddLine(new Vec2(711, 712), new Vec2(714, 1069));
@@ -524,17 +585,51 @@ public class MyGame : Game
                 _movers.Add(new Bomb(new Vec2(84, 1048)));*/
                 break;
             case 6:
-                itemUses = new int[] { 5, 5, 5, 0, 0, 0, 1 };
+                itemUses = new int[] { 2, 4, 2, 0, 0, 0, 0 };
                 _spawner.SetRemainingUses(itemUses);
-                AddLine(new Vec2(106, 319), new Vec2(999, 649));
+
+                Sprite w12 = new Sprite("assets/wood3.png", addCollider: false);
+                w12.rotation = 30;
+                w12.SetXY(920, 400);
+                wood.AddChild(w12);
+
+                Sprite w13 = new Sprite("assets/wood2.png", addCollider: false);
+                w13.rotation = 320;
+                w13.SetXY(880, 700);
+                wood.AddChild(w13);
+
+                /*AddLine(new Vec2(106, 319), new Vec2(999, 649));
                 _movers.Add(new Player(30, new Vec2(286, 242)));
                 AddLine(new Vec2(115, 278), new Vec2(1445, 825));
                 _movers.Add(new Bomb(new Vec2(1443, 816)));
                 //_movers.Add(new Finish(new Vec2(1400, 333)));
-                _movers.Add(new ShootingEnemy(new Vec2(width/2, 200), new Vec2(width/2, 1920)));
+                _movers.Add(new ShootingEnemy(new Vec2(width/2, 200), new Vec2(width/2, 1920)));*/
                 break;
             case 7:
-                AddLine(new Vec2(943, 6), new Vec2(941, 619));
+                itemUses = new int[] { 5, 8, 3, 0, 0, 0, 0 };
+                _spawner.SetRemainingUses(itemUses);
+
+                Sprite w14 = new Sprite("assets/wood3.png", addCollider: false);
+                w14.rotation = 90;
+                w14.SetXY(1180, 380);
+                wood.AddChild(w14);
+
+                Sprite w15 = new Sprite("assets/wood3.png", addCollider: false);
+                w15.rotation = 90;
+                w15.SetXY(1600, 650);
+                wood.AddChild(w15);
+
+                Sprite w16 = new Sprite("assets/wood3.png", addCollider: false);
+                w16.rotation = 90;
+                w16.SetXY(1950, 430);
+                wood.AddChild(w16);
+
+                Sprite w17 = new Sprite("assets/wood1.png", addCollider: false);
+                w17.SetXY(930, -330);
+                w17.Mirror(true, false);
+                wood.AddChild(w17);
+
+                /*AddLine(new Vec2(943, 6), new Vec2(941, 619));
                 AddLine(new Vec2(1438, 6), new Vec2(1438, 232));
                 AddLine(new Vec2(1435, 233), new Vec2(1334, 318));
                 AddLine(new Vec2(1334, 318), new Vec2(1547, 318));
@@ -552,7 +647,48 @@ public class MyGame : Game
                 _movers.Add(new Enemy(20, new Vec2(437, 559)));
                 _movers.Add(new Enemy(20, new Vec2(470, 632)));
                 _movers.Add(new Player(30, new Vec2(1508, 153)));
-                _movers.Add(new Finish(new Vec2(235, 506)));
+                _movers.Add(new Finish(new Vec2(235, 506)));*/
+                break;
+            case 8:
+                itemUses = new int[] { 4, 6, 2, 0, 0, 0, 0 };
+                _spawner.SetRemainingUses(itemUses);
+
+                Sprite w18 = new Sprite("assets/wood1.png", addCollider: false);
+                w18.SetXY(730, 370);
+                w18.Mirror(true, false);
+                wood.AddChild(w18);
+
+                Sprite w19 = new Sprite("assets/wood2.png", addCollider: false);
+                w19.rotation = 30;
+                w19.SetXY(1670, 0);
+                wood.AddChild(w19);
+
+                Sprite w20 = new Sprite("assets/wood2.png", addCollider: false);
+                w20.rotation = 330;
+                w20.SetXY(-40, 0);
+                wood.AddChild(w20);
+
+                break;
+            case 9:
+                itemUses = new int[] { 4, 6, 2, 0, 0, 0, 0 };
+                _spawner.SetRemainingUses(itemUses);
+
+                Sprite w21 = new Sprite("assets/wood1.png", addCollider: false);
+                w21.SetXY(850, 620);
+                w21.rotation = 90;
+                w21.Mirror(false, true);
+                wood.AddChild(w21);
+
+                Sprite w22 = new Sprite("assets/wood2.png", addCollider: false);
+                w22.rotation = 90;
+                w22.SetXY(860, 160);
+                wood.AddChild(w22);
+
+                Sprite w23 = new Sprite("assets/wood3.png", addCollider: false);
+                w23.rotation = 90;
+                w23.SetXY(920, 320);
+                wood.AddChild(w23);
+
                 break;
             default: // level making
                 itemUses = new int[] { 99, 99, 99, 99, 1, 1, 1 };
