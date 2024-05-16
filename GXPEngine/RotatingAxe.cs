@@ -48,7 +48,7 @@ public class Axe : AnimationSprite
 
         if (currentFrame == 11 || currentFrame == 1)
         {
-            sound.Play(false, 0, 0.2f);
+            sound.Play(false, 0, 0.1f);
         }
     }
 }

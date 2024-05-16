@@ -238,6 +238,7 @@ public class Ball : EasyDraw
 			}
 
 			// myGame.femboyBounce.visible = true;
+			myGame.soundChannel.IsPaused = true;
 			winSound.Play();
         }
 
@@ -474,7 +475,8 @@ public class Ball : EasyDraw
 				MyGame myGame = (MyGame)game;
 				myGame.RemovePlayer();
 				myGame.Pause();
-				loseSound.Play();
+				myGame.soundChannel.IsPaused = true;
+				loseSound.Play(volume:0.1f);
 
 				myGame.gameOver.Text("Game Over\nPress R to restart the level", game.width / 2, game.height / 2);
 			}

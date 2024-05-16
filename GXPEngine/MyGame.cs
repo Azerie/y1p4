@@ -24,6 +24,7 @@ public class MyGame : Game
     public EasyDraw hud2;
 
     public Sound backgroundMusic;
+    public SoundChannel soundChannel;
 
     public AnimationSprite femboyBounce;
 
@@ -109,7 +110,8 @@ public class MyGame : Game
         AddChild(femboyBounce);
 
         backgroundMusic = new Sound("assets/music.wav", looping:true);
-        backgroundMusic.Play();
+
+        soundChannel = (SoundChannel)backgroundMusic.Play(false, 0, .2f);
 
         LoadScene(_startSceneNumber);
 
@@ -346,6 +348,7 @@ public class MyGame : Game
 	void LoadScene(int sceneNumber) {
 		_startSceneNumber = sceneNumber;
         // remove previous scene:
+        soundChannel.IsPaused = false;
         
         foreach (Ball mover in _movers) {
 			mover.Destroy();
