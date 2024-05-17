@@ -17,6 +17,7 @@ public class Finish2 : Ball
         sprite.SetCycle(8, 1); // Set initial frame to the first frame of the animation
         animationPlaying = false;
         splash = new Sound("assets/Milk splash.wav");
+        sprite.SetOrigin(170, 220);
     }
 
     public void PlayAnimation()

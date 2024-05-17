@@ -6,13 +6,13 @@ public class Finish : Ball
     AnimationSprite sprite;
     bool animationPlaying;
     Sound splash;
-    public Finish(Vec2 pPosition) : base(30, pPosition, pMoving: false)
+    public Finish(Vec2 pPosition) : base(35, pPosition, pMoving: false)
     {
         sprite = new AnimationSprite("assets/animatedBucket.png", 3, 3, addCollider: false);
         sprite.height = GetRadius() * 4;
         sprite.width = GetRadius() * 4;
         AddChild(sprite);
-        sprite.SetOrigin(60, 60);
+        sprite.SetOrigin(170, 220);
         sprite.SetCycle(8, 1); // Set initial frame to the first frame of the animation
         animationPlaying = false;
         splash = new Sound("assets/Milk splash.wav");
